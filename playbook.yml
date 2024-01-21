@@ -44,7 +44,7 @@
         update: yes
 
     - name: Install backend app
-        shell: cd /home
+        shell: "cd /home"
         args:
           chdir: /home/ubuntu/drf_test/api
 
