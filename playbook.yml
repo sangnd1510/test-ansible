@@ -53,7 +53,7 @@
         chdir: /home/ubuntu/drf_test/api 
 
     - name: install yarn package manager
-        ansible.builtin.command:
+      ansible.builtin.command:
         cmd: npm install --global yarn
 
     - name: build client app
