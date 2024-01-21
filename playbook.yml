@@ -40,7 +40,7 @@
     - name: Clone repository
       git:
         repo: "https://github.com/sangnd1510/drf_test.git"
-        dest: "/home/ubuntu/"
+        dest: "/home/ubuntu/drf_test"
         update: yes
 
     - name: Install backend app
