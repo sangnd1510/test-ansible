@@ -44,7 +44,9 @@
         update: yes
 
     - name: Install backend app
-        command: "cd /home/ubuntu/drf_test/api && docker compose up"
+        command: docker compose up
+        args:
+          chdir: cd /home/ubuntu/drf_test/api
 
     - name: Prune everything
       community.docker.docker_prune:
