@@ -37,50 +37,14 @@
         state: latest
         update_cache: true
 
-    - name: create a MySQL container
-      docker_container:
-        name: mysql
-        image: mysql:8.0
-        networks:
-          - name: test
-            aliases:
-              - test
-        env:
-          MYSQL_ROOT_PASSWORD: secret
-          MYSQL_DATABASE: store
-        detach: true
-        state: started
-        recreate: yes
-        exposed_ports:
-          - 3306
-        pull: true
-        comparisons:
-          image: strict
-    - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-        src: ./script
-        dest: /home/ubuntu/script
-        owner: ubuntu
-        group: ubuntu
+    - name: Clone repository
+      git:
+        repo: "https://github.com/sangnd1510/drf_test.git"
+        dest: "/home/ubuntu/"
+        update: yes
 
-    - name: create a backend container
-      docker_container:
-        name: backend-container
-        image: sangnd1510/drf-store-api
-        networks:
-          - name: test
-            aliases:
-              - test
-        state: started
-        recreate: yes
-        exposed_ports:
-          - 8000
-        detach: true
-        published_ports:
-          - 8000:8000
-        pull: true
-        comparisons:
-          image: strict
+    - name: Install backend app
+        command: "cd /home/ubuntu/drf_test/api && docker compose up"
 
     - name: Prune everything
       community.docker.docker_prune:
