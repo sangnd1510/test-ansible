@@ -19,6 +19,9 @@
           - python3-pip
           - virtualenv
           - python3-setuptools
+          - nginx
+          - nodejs
+          - npm
         state: latest
         update_cache: true
     - name: Add Docker GPG apt Key
@@ -49,7 +52,39 @@
       args:
         chdir: /home/ubuntu/drf_test/api 
 
+    - name: install yarn package manager
+        ansible.builtin.command:
+        cmd: npm install --global yarn
+
+    - name: build client app
+      ansible.builtin.command:
+        cmd: yarn run build
+      args:
+        chdir: /home/ubuntu/drf_test/client 
+      
+    - name: move build folder 
+      ansible.builtin.command:
+        cmd: mv * /var/www/client_app/html
+      args:
+        chdir: /home/ubuntu/drf_test/client/build
+  
+    - name: Configure Nginx
+        template:
+          src: "nginx.conf.j2"
+          dest: "/etc/nginx/sites-available/your_app"
+        notify:
+          - Reload Nginx
+
     - name: Prune everything
       community.docker.docker_prune:
         containers: true
         images: true
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+          
+  
+      

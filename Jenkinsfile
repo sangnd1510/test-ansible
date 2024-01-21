@@ -6,7 +6,7 @@ pipeline {
     }
     stages {
 
-        stage('Deploy backend app') {
+        stage('Deploy app to cloud') {
            
             steps {
                 withCredentials([file(credentialsId: 'drf_store_key', variable: 'drf_store_key')]) {
