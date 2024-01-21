@@ -44,9 +44,10 @@
         update: yes
 
     - name: Install backend app
-        shell: "cd /home"
-        args:
-          chdir: /home/ubuntu/drf_test/api
+      ansible.builtin.command:
+        cmd: docker compose up
+      args:
+        chdir: /home/ubuntu/drf_test/api 
 
     - name: Prune everything
       community.docker.docker_prune:
