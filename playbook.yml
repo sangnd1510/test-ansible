@@ -44,7 +44,7 @@
         update: yes
 
     - name: Install backend app
-        command: docker compose up
+        shell: docker compose --version
         args:
           chdir: cd /home/ubuntu/drf_test/api
 
